@@ -47,7 +47,7 @@ def get_dict(line:str)-> dict:
     return log_dict
 
 
-# YOU DON'T NEED TO CHANGE ANYTHING BELOW THIS LINE
+
 if __name__ == "__main__":
     # these are basic generators that will return
     # 1 line of the log file at a time
@@ -62,12 +62,6 @@ if __name__ == "__main__":
         for line in f:
             if is_log_line(line):
                 yield get_dict(line)
-
-    # ---- OUTPUT --- #
-    # You can print out each line of the log file line by line
-    # by uncommenting this code below
-    # for i, line in enumerate(log_parser("sample.log")):
-    #     print(i, line)
 
     # ---- TESTS ---- #
     # DO NOT CHANGE

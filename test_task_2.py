@@ -108,7 +108,7 @@ class TestPersonOutputDict:
     
     def test_missing_keys_input(self, court_missing_key, person_list):
         result = person_output_dict(court_missing_key, person_list)
-        assert result == f"{person_list[0]}: invalid court data"
+        assert result == "Paul Blart: invalid court data"
 
 
 class TestMainRoutine:
@@ -119,7 +119,7 @@ class TestMainRoutine:
         """Tests that the correct statement is returned if there are no valid courts"""
         mock_courts.return_value = []
         result = main_routine(person_string)
-        assert result == f"{person_string.split(',')[0]}: no courts of the correct type"
+        assert result == "Paul Blart: no courts of the correct type"
     
 
     @patch("test_2.find_courts")
@@ -129,3 +129,12 @@ class TestMainRoutine:
         result = main_routine(person_string)
 
         assert isinstance(result,dict)
+    
+
+    def test_no_api_connection(self, requests_mock, person_string):
+        """Tests that error raised in find_courts is handled"""
+        requests_mock.get(f"https://courttribunalfinder.service.gov.uk/search/results.json?postcode=NR162HE",
+                          status_code=404)
+        response = main_routine(person_string)
+        assert response ==  "Paul Blart: unable to connect to API"
+       
